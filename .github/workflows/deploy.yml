@@ -11,17 +11,19 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
-    container:
-      image: node:16
+    # container:
+    #   image: node:16
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
-      MONGODB_CLUSTER_ADDRESS: mongodb-neven
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017
       MONGODB_USERNAME: root
       MONGODB_PASSWORD: example
       PORT: 8080
     services:
       mongodb-neven:
         image: mongo
+        ports:
+          - 27017:27017 # if we are using runner machine instead of container, 27017 je port koji se koristi od mongo dba
         env:
           MONGO_INITDB_ROOT_USERNAME: root #MONGO_INITDB_ROOT_USERNAME i MONGO_INITDB_ROOT_PASSWORD su sluzbeni nazivi
           MONGO_INITDB_ROOT_PASSWORD: example
