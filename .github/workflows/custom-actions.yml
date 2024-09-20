@@ -9,15 +9,8 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true' #cache-hit is defined output of cache@v3
-        run: npm ci
+      - name: Load & cache dependecies
+        uses: ./.github/actions-neven/cached-deps #ne trebamo dodati /actions zato jer ce github automatski pronaći yml datoteku zato jer smo je nazvali actions
       - name: Lint code
         run: npm run lint
   test:
